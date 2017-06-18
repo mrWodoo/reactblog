@@ -28,6 +28,11 @@ class Post extends AbstractEntity
     private $shortContent;
 
     /**
+     * @var string
+     */
+    private $image;
+
+    /**
      * @var \DateTime
      */
     private $createdAt;
@@ -195,6 +200,19 @@ class Post extends AbstractEntity
     public function getDeletedAt()
     {
         return $this->deletedAt;
+    }
+
+    public function getImage()
+    {
+        return $this->image;
+    }
+
+    /**
+     * @param string $image
+     */
+    public function setImage($image)
+    {
+        $this->image = $image;
     }
 }
 

@@ -8,7 +8,8 @@ class Main extends React.Component {
     render() {
         return <Switch>
             <Route exact path='/' component={ControllerDefaulIndex}/>
-            <Route exact path='/test' component={ControllerDefaultPostDetails}/>
+            <Route path='/page/:page' component={ControllerDefaulIndex}/>
+            <Route exact name="showPostDetails" path='/post/:postId' component={ControllerDefaultPostDetails}/>
         </Switch>
     }
 }

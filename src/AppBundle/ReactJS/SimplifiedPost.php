@@ -13,10 +13,10 @@ abstract class SimplifiedPost
     public static function toArray(Post $post)
     {
         return [
-            'id'            => md5(microtime(true) . rand(0,9999)),
+            'id'            => $post->getId(),
             'title'         => $post->getTitle(),
             'shortContent'  => $post->getShortContent(),
-            'image'         => 'http://i43.tinypic.com/qovh5i.jpg'
+            'image'         => $post->getImage()
         ];
     }
 }

@@ -20,8 +20,9 @@ class PostsSeeder extends AbstractSeed
         $data = [];
         for ($i = 0; $i < 20; $i++) {
             $data[] = [
-                'title'         => $faker->title,
+                'title'         => $faker->realText(25),
                 'content'       => $faker->text(500),
+                'image'         => $faker->imageUrl(),
                 'short_content' => $faker->text(150),
                 'created_at'    => date('Y-m-d ') . rand(0, 23) . ':' . rand(0, 59) . ':' . rand(0,59)
             ];

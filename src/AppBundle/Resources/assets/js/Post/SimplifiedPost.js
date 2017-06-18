@@ -4,9 +4,11 @@ import { Link } from 'react-router-dom'
 
 class SimplifiedPost extends React.Component {
     render() {
-        return <Card className='small'
-                     header={<CardTitle image={this.props.image}>{this.props.title}</CardTitle>}
-                     actions={[<Link to={`test`}>{this.props.title}</Link>]}>
+        return <Card
+            key={this.props.id}
+            className='small'
+            header={<CardTitle image={this.props.image}>{this.props.title}</CardTitle>}
+            actions={[<Link to={'/post/' + this.props.id}>{this.props.title}</Link>]}>
 
             {this.props.shortContent}
         </Card>

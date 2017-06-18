@@ -15,8 +15,12 @@ module.exports = {
                 query: {
                     presets: ['es2015', 'react']
                 }
+            },
+            {
+                test: /\.scss$/,
+                loaders: ['style-loader', 'css-loader', 'sass-loader']
             }
-        ]
+        ],
     },
     externals: {
         "jquery": "$"
@@ -24,6 +28,7 @@ module.exports = {
     resolve: {
         modules: [
             path.resolve('./src/AppBundle/Resources/assets/js'),
+            path.resolve('./src/AppBundle/Resources/assets/scss'),
             path.resolve('./node_modules')
         ]
     },
