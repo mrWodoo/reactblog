@@ -17,6 +17,24 @@ class PostRepository extends \Doctrine\ORM\EntityRepository
     }
 
     /**
+     * @param $postId
+     * @return null|object|Post
+     */
+    public function getById($postId)
+    {
+        $postId = intval($postId);
+
+        if ($postId < 1) {
+            throw new \InvalidArgumentException('`postId` must be higher than 0');
+        }
+
+        return $this
+            ->getEntityManager()
+            ->getRepository('AppBundle:Post')
+            ->find($postId);
+    }
+
+    /**
      * @return int
      */
     public function countAllPosts()

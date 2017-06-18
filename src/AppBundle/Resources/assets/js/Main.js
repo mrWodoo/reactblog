@@ -9,7 +9,7 @@ class Main extends React.Component {
         return <Switch>
             <Route exact path='/' component={ControllerDefaulIndex}/>
             <Route path='/page/:page' component={ControllerDefaulIndex}/>
-            <Route exact name="showPostDetails" path='/post/:postId' component={ControllerDefaultPostDetails}/>
+            <Route path='/post/:postId' component={ControllerDefaultPostDetails}/>
         </Switch>
     }
 }

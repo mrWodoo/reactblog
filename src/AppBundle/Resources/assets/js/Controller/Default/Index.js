@@ -9,7 +9,34 @@ require('preloader.scss')
 class ControllerDefaultIndex extends React.Component {
     constructor(props) {
         super(props);
-        this.state = controllerOutput;
+
+        if (controllerOutput && controllerOutput.posts) {
+            this.state = controllerOutput;
+        } else {
+            let that = this;
+            that.state = {
+                loading: true
+            };
+
+            // Fetch posts for page
+            fetch('/api/index/fetchPosts/1')
+                .then(function(response){
+                    return response.json()
+                })
+                .then(function(data) {
+                    that.setState({
+                        posts   : data.posts,
+                        loading : false,
+                    });
+                })
+                .catch(function(error) {
+                    //@TODO handle error
+                    that.setState({
+                        loading: false
+                    });
+                });
+        }
+
 
         this.handlePaginationGoTo = this.handlePaginationGoTo.bind(this);
     }
@@ -27,6 +54,7 @@ class ControllerDefaultIndex extends React.Component {
 
         const that = this;
 
+        // Fetch posts for page
         fetch('/api/index/fetchPosts/' + page)
             .then(function(response){
                 return response.json()
@@ -40,6 +68,12 @@ class ControllerDefaultIndex extends React.Component {
                         pages       : prevState.pagination.pages
                     },
                 }));
+            })
+            .catch(function(error) {
+                //@TODO handle error
+                that.setState({
+                    loading: false
+                });
             });
     }
 
@@ -56,18 +90,23 @@ class ControllerDefaultIndex extends React.Component {
         }
 
 
-        const posts = this.state.posts.map((post) =>
-            <SimplifiedPost
-                key={post.id}
-                id={post.id}
-                title={post.title}
-                shortContent={post.shortContent}
-                image={post.image} />
-        );
+
+        let posts = null;
+
+        if (this.state.posts) {
+            posts = this.state.posts.map((post) =>
+                <SimplifiedPost
+                    key={post.id}
+                    id={post.id}
+                    title={post.title}
+                    shortContent={post.shortContent}
+                    image={post.image} />
+            );
+        }
 
         let pagination = null;
 
-        if (this.state.pagination.pages > 1) {
+        if (this.state.pagination && this.state.pagination.pages > 1) {
             pagination = <Pagination
                 items={this.state.pagination.pages}
                 activePage={this.state.pagination.currentPage}

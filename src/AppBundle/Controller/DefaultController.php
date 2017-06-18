@@ -4,6 +4,7 @@ namespace AppBundle\Controller;
 
 use AppBundle\Entity\Post;
 use AppBundle\ReactJS\Pagination;
+use AppBundle\ReactJS\PostDetails;
 use AppBundle\ReactJS\SimplifiedPost;
 use AppBundle\Repository\PostRepository;
 use Doctrine\ORM\EntityManagerInterface;
@@ -46,6 +47,33 @@ class DefaultController extends Controller
         }
 
         $data['pagination'] = Pagination::toArray($pagination['currentPage'], $pagination['pages']);
+
+        return $this->render('default/index.html.twig', [
+            'base_dir'  => realpath($this->getParameter('kernel.project_dir')).DIRECTORY_SEPARATOR,
+            'output'    => json_encode($data)
+        ]);
+    }
+
+    /**
+     * @Route("/post/{postId}", name="postDetails", requirements={"postId": "([0-9]{1,3})"})
+     */
+    public function postDetailsAction(
+        $postId = 1,
+        Request $request,
+        EntityManagerInterface $entityManager
+    )
+    {
+        /** @var PostRepository $postRepository */
+        $postRepository = $entityManager
+            ->getRepository('AppBundle:Post');
+
+        $post = $postRepository->getById($postId);
+
+        $data = [
+            'post'      => PostDetails::toArray($post),
+            'comments'  => [],
+            'time'      => time()
+        ];
 
         return $this->render('default/index.html.twig', [
             'base_dir'  => realpath($this->getParameter('kernel.project_dir')).DIRECTORY_SEPARATOR,
