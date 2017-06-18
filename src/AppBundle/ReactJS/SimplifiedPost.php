@@ -13,10 +13,12 @@ abstract class SimplifiedPost
     public static function toArray(Post $post)
     {
         return [
-            'id'            => $post->getId(),
-            'title'         => $post->getTitle(),
-            'shortContent'  => $post->getShortContent(),
-            'image'         => $post->getImage()
+            'id'                    => $post->getId(),
+            'title'                 => $post->getTitle(),
+            'shortContent'          => $post->getShortContent(),
+            'image'                 => $post->getImage(),
+            'createdAtTimestamp'    => $post->getCreatedAt()->getTimestamp()
+
         ];
     }
 }

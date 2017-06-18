@@ -15,7 +15,7 @@ class ControllerDefaultPostDetails extends React.Component {
             for (var i in controllerOutput.posts) {
                 var post = controllerOutput.posts[i];
 
-                if (post.id === props.match.params.postId) {
+                if (parseInt(post.id) === parseInt(props.match.params.postId)) {
                     this.state = {
                         post: post
                     };

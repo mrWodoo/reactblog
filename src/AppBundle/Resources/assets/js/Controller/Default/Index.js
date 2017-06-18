@@ -100,7 +100,8 @@ class ControllerDefaultIndex extends React.Component {
                     id={post.id}
                     title={post.title}
                     shortContent={post.shortContent}
-                    image={post.image} />
+                    image={post.image}
+                    createdAt={post.createdAtTimestamp}/>
             );
         }
 
