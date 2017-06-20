@@ -12815,8 +12815,6 @@ var _Layout2 = _interopRequireDefault(_Layout);
 
 var _reactMaterialize = __webpack_require__(45);
 
-var _reactRouterDom = __webpack_require__(29);
-
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -12835,42 +12833,44 @@ var ControllerDefaultIndex = function (_React$Component) {
 
         var _this = _possibleConstructorReturn(this, (ControllerDefaultIndex.__proto__ || Object.getPrototypeOf(ControllerDefaultIndex)).call(this, props));
 
-        if (controllerOutput && controllerOutput.posts) {
-            _this.state = controllerOutput;
-        } else {
-            var that = _this;
-            that.state = {
-                loading: true
-            };
-
-            // Fetch posts for page
-            fetch('/api/index/fetchPosts/1').then(function (response) {
-                return response.json();
-            }).then(function (data) {
-                that.setState({
-                    posts: data.posts,
-                    loading: false
-                });
-            }).catch(function (error) {
-                //@TODO handle error
-                that.setState({
-                    loading: false
-                });
-            });
-        }
-
+        _this.state = {};
         _this.handlePaginationGoTo = _this.handlePaginationGoTo.bind(_this);
         return _this;
     }
 
     _createClass(ControllerDefaultIndex, [{
+        key: 'componentDidMount',
+        value: function componentDidMount() {
+            if (controllerOutput && controllerOutput.posts) {
+                this.setState(controllerOutput);
+            } else {
+                var that = this;
+                this.setState({
+                    loading: true
+                });
+
+                // Fetch posts for page
+                fetch('/api/index/fetchPosts/1').then(function (response) {
+                    return response.json();
+                }).then(function (data) {
+                    that.setState({
+                        posts: data.posts,
+                        loading: false
+                    });
+                }).catch(function (error) {
+                    //@TODO handle error
+                    that.setState({
+                        loading: false
+                    });
+                });
+            }
+        }
+    }, {
         key: 'handlePaginationGoTo',
         value: function handlePaginationGoTo(page) {
             if (page < 1) {
                 page = 1;
             }
-
-            this.props.history.push('/page/' + page);
 
             this.setState(function (prevState) {
                 return {
@@ -12894,6 +12894,8 @@ var ControllerDefaultIndex = function (_React$Component) {
                         }
                     };
                 });
+
+                this.props.history.push('/page/' + page);
             }).catch(function (error) {
                 //@TODO handle error
                 that.setState({
@@ -12904,6 +12906,7 @@ var ControllerDefaultIndex = function (_React$Component) {
     }, {
         key: 'render',
         value: function render() {
+            console.log(this.state);
             var preloader = null;
 
             if (this.state.loading) {

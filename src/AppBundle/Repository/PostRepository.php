@@ -55,6 +55,7 @@ class PostRepository extends \Doctrine\ORM\EntityRepository
             ->getEntityManager()
             ->createQueryBuilder()
             ->select('post')
-            ->from('AppBundle:Post', 'post');
+            ->from('AppBundle:Post', 'post')
+            ->orderBy('post.createdAt', 'desc');
     }
 }

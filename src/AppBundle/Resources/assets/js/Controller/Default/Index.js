@@ -2,7 +2,6 @@ import React from 'react'
 import SimplifiedPost from 'Post/SimplifiedPost'
 import Layout from 'Layout/Layout'
 import { Pagination, Preloader } from 'react-materialize'
-import { Route, Redirect } from 'react-router-dom'
 
 require('preloader.scss')
 
@@ -10,13 +9,18 @@ class ControllerDefaultIndex extends React.Component {
     constructor(props) {
         super(props);
 
+        this.state = {}
+        this.handlePaginationGoTo = this.handlePaginationGoTo.bind(this);
+    }
+
+    componentDidMount() {
         if (controllerOutput && controllerOutput.posts) {
-            this.state = controllerOutput;
+            this.setState(controllerOutput)
         } else {
             let that = this;
-            that.state = {
+            this.setState({
                 loading: true
-            };
+            });
 
             // Fetch posts for page
             fetch('/api/index/fetchPosts/1')
@@ -36,17 +40,12 @@ class ControllerDefaultIndex extends React.Component {
                     });
                 });
         }
-
-
-        this.handlePaginationGoTo = this.handlePaginationGoTo.bind(this);
     }
 
     handlePaginationGoTo(page) {
         if (page < 1) {
             page = 1;
         }
-
-        this.props.history.push('/page/' + page)
 
         this.setState((prevState) => ({
             loading     : true
@@ -68,6 +67,8 @@ class ControllerDefaultIndex extends React.Component {
                         pages       : prevState.pagination.pages
                     },
                 }));
+
+                this.props.history.push('/page/' + page)
             })
             .catch(function(error) {
                 //@TODO handle error
@@ -78,6 +79,7 @@ class ControllerDefaultIndex extends React.Component {
     }
 
     render() {
+        console.log(this.state)
         let preloader = null
 
         if (this.state.loading) {
@@ -88,8 +90,6 @@ class ControllerDefaultIndex extends React.Component {
                 </div>
             </div>
         }
-
-
 
         let posts = null;
 
